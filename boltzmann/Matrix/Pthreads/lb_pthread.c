@@ -1,6 +1,7 @@
-/* Matheus S. Serpa
+/* Matheus da Silva Serpa - Ciência da Computação (2015)
+ * Universidade Federal do Pampa - Campus Alegrete
  * matheusserpa@gmail.com
- * https://github.com/matheusserpa/boltzmann */
+ * https://github.com/matheusserpa/applications */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -322,7 +323,7 @@ int main(int argc, char **argv){
 
 	timer = crono();
 
-	for(i = 0; i < num_thread s; ++i){
+	for(i = 0; i < num_threads; ++i){
 		if(checkFlag(argv, argc, "debug"))
 			printf("Creating thread %ld\n", i);
 		

@@ -1,6 +1,7 @@
-/* Matheus S. Serpa
+/* Matheus da Silva Serpa - Ciência da Computação (2015)
+ * Universidade Federal do Pampa - Campus Alegrete
  * matheusserpa@gmail.com
- * https://github.com/matheusserpa/boltzmann */
+ * https://github.com/matheusserpa/applications */
  
 #ifndef HELPER
 #define HELPER

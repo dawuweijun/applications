@@ -1,9 +1,10 @@
-# Matheus S. Serpa
+# Matheus da Silva Serpa - Ciência da Computação (2015)
+# Universidade Federal do Pampa - Campus Alegrete
 # matheusserpa@gmail.com
-# https://github.com/matheusserpa/boltzmann
+# https://github.com/matheusserpa/applications
 
 # Flags
-FLAGS := -DUSE_DOUBLE -m64 -arch=sm_35 --use_fast_math --ptxas-options=-v -Wall -Wextra 
+FLAGS := -DUSE_DOUBLE -m64 -arch=sm_35 --use_fast_math --ptxas-options=-v
 
 # Target rules
 all: build
@@ -23,7 +24,7 @@ lb_cuda: helper.o lb_3D.o lb_cuda.o
 build: lb_cuda
 
 run: build
-	./lb_cuda obstacle="../../in/anb-128.obs" debug out output=saida.out
+	./lb_cuda obstacle="../in/anb-128.obs" debug out output=saida.out
 
 clean:
-	rm -f lb_cuda *.o 
+	rm -f lb_cuda *.o
