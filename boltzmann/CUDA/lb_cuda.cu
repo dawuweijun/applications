@@ -283,12 +283,20 @@ static void GPUHandleError( cudaError_t err, const char *file, const int line ) 
 	}
 
 int main(int argc, char **argv){
+
+	int block;
+	if(flagValueInt(argv, argc, "block") > 0){
+		block = flagValueInt(argv, argc, "block");
+	}
+	else{
+		block = 8;
+	}	
 	
 	if(checkFlag(argv, argc, "debug")){
 		#ifdef USE_DOUBLE
-			printf("Lattice Boltzmann Method - D3Q19 - Vector - CUDA - Double Precision\n");
+			printf("Lattice Boltzmann Method - D3Q19 - Vector - CUDA - Block: %d - Double Precision\n", block);
 		#else
-			printf("Lattice Boltzmann Method - D3Q19 - Vector - CUDA - Single Precision\n");
+			printf("Lattice Boltzmann Method - D3Q19 - Vector - CUDA - Block: %d - Single Precision\n", block);
 		#endif
 		printf("Serpa and Schepke 2015\n");
 		printf("Laboratório de Estudos Avançados - UNIPAMPA\n\n");
@@ -323,7 +331,7 @@ int main(int argc, char **argv){
 	}
 
 	// Workstation UNIPAMPA: 0 to Tesla C2075, 1 to Quadro 5000
-	GPU_HANDLE_ERROR(cudaSetDevice(atoi(argv[4])));
+	//GPU_HANDLE_ERROR(cudaSetDevice(0));
 
 	// Device Memory
 	unsigned short int *d_obst;
@@ -334,10 +342,10 @@ int main(int argc, char **argv){
 	#endif
 
 	// Blocks and Grids.
-	dim3 BLOCK_REDISTRIBUTE(8, 8, 8);
-	dim3 BLOCK_PROPAGATE(8, 8, 8);
-	dim3 BLOCK_BOUNCEBACK(8, 8, 8);
-	dim3 BLOCK_RELAXATION(8, 8, 8);
+	dim3 BLOCK_REDISTRIBUTE(block, block, block);
+	dim3 BLOCK_PROPAGATE(block, block, block);
+	dim3 BLOCK_BOUNCEBACK(block, block, block);
+	dim3 BLOCK_RELAXATION(block, block, block);
 
 	int a = (lattice->lx + BLOCK_REDISTRIBUTE.x - 1) / BLOCK_REDISTRIBUTE.x;
 	int b = (lattice->ly + BLOCK_REDISTRIBUTE.y - 1) / BLOCK_REDISTRIBUTE.y;
