@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include "../D3Q19/helper.h"
+#include "../../../helper.h"
 #include "../D3Q19/lb_3D.h"
 
 // Lattice structure
@@ -17,9 +17,8 @@ pthread_barrier_t barrier;
 
 // Threads
 long int num_threads;
+unsigned int *chunks;
 
-/* redistribute
-It is interesting to redistribute the forces to all points */
 void *boltzmann(void *param){
 	s_lattice *l = lattice;
 	int time;
@@ -33,12 +32,10 @@ void *boltzmann(void *param){
 		float u_n[NDIM], n_equ[NDIM], u_squ, d_loc;
 	#endif
 	long int id = (long int) param;
-	unsigned int chunk_x = l->lx / num_threads;
-
 
 	for(time = 1; time <= ITERATIONS; time++){
 
-		for(x = id * chunk_x; x < (id + 1) * chunk_x; ++x)
+		for(x = chunks[id]; x < chunks[id + 1]; ++x)
 			for(y = 0; y < l->ly; y++)
 				for(z = 0; z < l->lz; z++)
 					if(l->obst[x][y][z] == false){
@@ -57,7 +54,7 @@ void *boltzmann(void *param){
 		pthread_barrier_wait(&barrier);
 
 	/* Propagate */
-		for(x = id * chunk_x; x < (id + 1) * chunk_x; ++x)
+		for(x = chunks[id]; x < chunks[id + 1]; ++x)
 			for(y = 0; y < l->ly; y++)
 				for(z = 0; z < l->lz; z++){
 				
@@ -116,7 +113,7 @@ void *boltzmann(void *param){
 		pthread_barrier_wait(&barrier);
 
 	/* Bounceback */
-		for(x = id * chunk_x; x < (id + 1) * chunk_x; ++x)
+		for(x = chunks[id]; x < chunks[id + 1]; ++x)
 			for(y = 0; y < l->ly; y++)
 				for(z = 0; z < l->lz; z++)
 					if(l->obst[x][y][z] == true){
@@ -161,7 +158,7 @@ void *boltzmann(void *param){
 		pthread_barrier_wait(&barrier);
 
 	/* Relaxation */
-		for(x = id * chunk_x; x < (id + 1) * chunk_x; ++x)
+		for(x = chunks[id]; x < chunks[id + 1]; ++x)
 			for(y = 0; y < l->ly; y++)
 				for(z = 0; z < l->lz; z++)
 					if(l->obst[x][y][z] == false){
@@ -313,6 +310,19 @@ int main(int argc, char **argv){
 		printf("Start main loop\n");
 	}
 
+	/* Chunk*/
+	chunks = (unsigned int *) malloc((num_threads + 1) * sizeof(unsigned int));
+	for(i = 0; i < num_threads; i++)
+		chunks[i] = i * (lattice->lx / num_threads);
+
+	for(i = 1; i <= lattice->lx % num_threads; i++)
+		chunks[i] += i;
+
+	for(i = (lattice->lx % num_threads) + 1; i < num_threads; i++)
+		chunks[i] += lattice->lx % num_threads;
+	chunks[num_threads] = lattice->lx;
+
+
 	/* Posix Threads */
 	thread = (pthread_t *) malloc(num_threads * sizeof(pthread_t));
 
@@ -369,7 +379,9 @@ int main(int argc, char **argv){
 		write_results(flagValueText(argv, argc, "output"), lattice);
 	dealloc_lattice(lattice, checkFlag(argv, argc, "debug"));
 
+	free(thread);
 	free(lattice);
+	free(chunks);
 
 	fprintf(stderr, "%.10lf\n", timer);
 	pthread_exit((void *) 0);

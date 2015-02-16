@@ -37,6 +37,9 @@ unsigned short int checkFlag(char **argv, int argc, char *flag);
 /* Return the flag in a integer value. */
 int flagValueInt(char **argv, int argc, char *flag);
 
+/* Return the flag in a long long value. */
+long long int flagValueLong(char **argv, int argc, char *flag);
+
 /* Return the flag in a text value. */
 char *flagValueText(char **argv, int argc, char *flag);
 

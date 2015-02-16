@@ -12,7 +12,7 @@ all: build
 lb_mp.o: lb_mp.c
 	gcc $(FLAGS) -o $@ -c $<
 
-lb_mp: ../D3Q19/helper.o ../D3Q19/lb_3D.o lb_mp.o
+lb_mp: ../../../helper.o ../D3Q19/lb_3D.o lb_mp.o
 	gcc $(FLAGS) -o $@ $+
 
 build: lb_mp

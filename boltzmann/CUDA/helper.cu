@@ -63,6 +63,17 @@ int flagValueInt(char **argv, int argc, char *flag){
 	return -1;
 }
 
+/* Return the flag in a long long value. */
+long long int flagValueLong(char **argv, int argc, char *flag){
+	long long int i;
+
+	for(i = 1; i < argc; ++i)
+		if(mystrcmp(argv[i], flag, '='))
+			return atoll(&argv[i][mystrlen(flag)+1]);
+
+	return -1;
+}
+
 /* Return the flag in a text value. */
 char *flagValueText(char **argv, int argc, char *flag){
 	int i;
@@ -87,7 +98,7 @@ float flagValueReal(char **argv, int argc, char *flag)
 		if(mystrcmp(argv[i], flag, '='))
 			return atof(&argv[i][mystrlen(flag)+1]);
 
-	return -1;
+	return -1.0;
 }
 
 /* Show flags and their respective values. */

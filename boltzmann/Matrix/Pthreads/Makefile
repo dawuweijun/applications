@@ -12,13 +12,13 @@ all: build
 lb_pthread.o: lb_pthread.c
 	gcc $(FLAGS) -o $@ -c $<
 
-lb_pthread: ../D3Q19/helper.o ../D3Q19/lb_3D.o lb_pthread.o
+lb_pthread: ../../../helper.o ../D3Q19/lb_3D.o lb_pthread.o
 	gcc $(FLAGS) -o $@ $+
 
 build: lb_pthread
 
 run: build
-	./lb_pthread obstacle="../../in/anb-128.obs" debug out output=saida.out threads=4
+	./lb_pthread obstacle="../../in/anb-128.obs" debug out output=saida.out threads=3
 
 clean:
 	rm -f lb_pthread *.o 

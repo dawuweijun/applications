@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include "lb_3D.h"
-#include "helper.h"
+#include "../../../helper.h"
 
 /* Alloc memory space to the grid */
 void alloc_lattice(s_lattice *l, unsigned short int debug){

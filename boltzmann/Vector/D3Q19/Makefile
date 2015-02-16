@@ -15,7 +15,7 @@ helper.o: helper.c
 lb_3D.o: lb_3D.c
 	gcc $(FLAGS) -o $@ -c $<
 
-build: helper.o lb_3D.o
+build: ../../../helper.o lb_3D.o
 
 clean:
 	rm -f *.o
