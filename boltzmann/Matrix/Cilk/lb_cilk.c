@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <cilk/cilk.h>
 #include <cilk/cilk_api.h>
-#include "../D3Q19/helper.h"
+#include "../../../helper.h"
 #include "../D3Q19/lb_3D.h"
 
 /* It is interesting to redistribute de forces to all points */

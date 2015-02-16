@@ -12,7 +12,7 @@ all: build
 lb_cilk.o: lb_cilk.c
 	~/cilkplus-install/bin/gcc $(FLAGS) -o $@ -c $<
 
-lb_cilk: ../D3Q19/helper.o ../D3Q19/lb_3D.o lb_cilk.o
+lb_cilk: ../../../helper.o ../D3Q19/lb_3D.o lb_cilk.o
 	~/cilkplus-install/bin/gcc $(FLAGS) -o $@ $+
 
 build: lb_cilk

@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
-#include "helper.h"
+#include "helper.cuh"
 
 /* Used by HANDLE_ERROR for show file and line where error occurred */
 void HandleError(const char *file, const unsigned int line){
@@ -87,7 +87,7 @@ float flagValueReal(char **argv, int argc, char *flag)
 		if(mystrcmp(argv[i], flag, '='))
 			return atof(&argv[i][mystrlen(flag)+1]);
 
-	return -1;
+	return -1.0;
 }
 
 /* Show flags and their respective values. */

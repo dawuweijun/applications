@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include "lb_3D.h"
-#include "helper.h"
+#include "../../../helper.h"
 
 /* Alloc memory space to the grid */
 void alloc_lattice(s_lattice *l, unsigned short int debug){
@@ -56,15 +56,10 @@ void alloc_lattice(s_lattice *l, unsigned short int debug){
 		velocity = u_x / n_free;
 		if(debug)
 			#ifdef USE_DOUBLE
-				printf("\tvelocity: %.10lf -0.1528171488 \n", velocity);
+				printf("\tvelocity: %.10lf\n", velocity);
 			#else
-				printf("\tvelocity: %.10f -0.1528169662 \n", velocity);
+				printf("\tvelocity: %.10f\n", velocity);
 			#endif
-
-		if(velocity + 0.136921 > 0.1){
-			printf("MOTHERFUCK ERROR!\n");
-			HANDLE_ERROR();
-		}
 		
 		return velocity;
 	}

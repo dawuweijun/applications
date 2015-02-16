@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include "helper.cuh"
 #include "lb_3D.cuh"
- #include <cuda_runtime.h>
+#include <cuda_runtime.h>
 
 static void GPUHandleError( cudaError_t err, const char *file, const int line ) {
     if (err != cudaSuccess) {
@@ -323,7 +323,7 @@ int main(int argc, char **argv){
 	}
 
 	// Workstation UNIPAMPA: 0 to Tesla C2075, 1 to Quadro 5000
-	GPU_HANDLE_ERROR(cudaSetDevice(atoi(argv[4])));
+	GPU_HANDLE_ERROR(cudaSetDevice(0));
 
 	// Device Memory
 	unsigned short int *d_obst;
